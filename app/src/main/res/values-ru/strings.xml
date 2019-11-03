@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MyRain</string>
     <string name="txt_temperature">5</string>
     <string name="Celsius">°C</string>
-    <string name="city">City</string>
+    <string name="city">Город</string>
     <string name="todo">TODO</string>
 </resources>
