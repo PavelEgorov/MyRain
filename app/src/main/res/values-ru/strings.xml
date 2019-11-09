@@ -5,4 +5,19 @@
     <string name="Celsius">°C</string>
     <string name="city">Город</string>
     <string name="todo">TODO</string>
+    <string name="enter_city">Введите название города</string>
+    <string name="moscow">Москва</string>
+    <string name="st_petersburg">Санкт-Петербург</string>
+    <string name="novosibirsk">Новосибирск</string>
+    <string name="krasnodar">Краснодар</string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="atmospheric_pressure">Атмосферное давление</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="Theme">Тема:</string>
+    <string name="english">English</string>
+    <string name="Russian">Русский</string>
+    <string name="language">Язык:</string>
+    <string name="settings">Настройки</string>
+    <string name="city_change">Выберите город</string>
 </resources>
