@@ -6,56 +6,104 @@
     android:layout_height="match_parent"
     tools:context=".Main" >
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/city"
-            android:textAlignment="center"
-            android:textColor="@color/colorеtemperature"
-            android:textSize="50sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="false">
 
-            <TextView
-                android:id="@+id/txtTemperature"
+            <Button
+                android:id="@+id/buttonChange"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/txt_temperature"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorеtemperature"
-                android:textSize="120sp"
-                android:textStyle="bold" />
+                android:text="@string/changeCity"
+                android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/Celsius"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorеtemperature"
-                android:textSize="120sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_cityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="100"
+                    android:text="@string/city"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="50sp"
+                    app:autoSizeTextType="uniform" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:rotation="0"
+                    android:text="@string/txt_temperature"
+                    android:textAlignment="viewEnd"
+                    android:textAllCaps="false"
+                    android:textSize="90sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/Celsius"
+                    android:textAlignment="textStart"
+                    android:textSize="110sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textView_Speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="6 m/s wind speed"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textViewPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="80 mm atmospheric pressure"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="@string/settings" />
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

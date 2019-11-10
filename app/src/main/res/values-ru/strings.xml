@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyRain</string>
+    <string name="app_name">My rain</string>
     <string name="txt_temperature">5</string>
     <string name="Celsius">°C</string>
     <string name="city">Город</string>
@@ -20,4 +20,7 @@
     <string name="language">Язык:</string>
     <string name="settings">Настройки</string>
     <string name="city_change">Выберите город</string>
+    <string name="changeCity">Изменить</string>
+    <string name="save">Сохранить</string>
+    <string name="back">Назад</string>
 </resources>
