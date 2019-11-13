@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyRain</string>
+    <string name="app_name">My rain</string>
     <string name="txt_temperature">5</string>
     <string name="Celsius">°C</string>
     <string name="city">City</string>
@@ -19,4 +19,7 @@
     <string name="language">Language:</string>
     <string name="settings">Settings</string>
     <string name="city_change">City change</string>
+    <string name="changeCity">change</string>
+    <string name="save">Save</string>
+    <string name="back">back</string>
 </resources>
