@@ -1,8 +1,12 @@
 package com.egorovsoft.myrain;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -12,7 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int RESULT_CODE_MAIN = 1;
+    private static final int RESULT_CODE_SETTINGS = 2;
+
     private static final String TAG = "MainActivity";
+
     private TextView cityName;
 
     @Override
@@ -23,22 +31,36 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Main.class);
-                startActivity(intent);
+                startActivityForResult(new Intent(MainActivity.this, Main.class), RESULT_CODE_MAIN);
             }
         });
         findViewById(R.id.buttonSettings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Settings.class);
-                startActivity(intent);
+                startActivityForResult(new Intent(MainActivity.this, Settings.class), RESULT_CODE_SETTINGS);
             }
         });
 
+        findViewById(R.id.button_brows).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Без локализации. просто вызываю погоду в яндексе на неделю по названию города.
+                // В дальнейшем нужно доработать этот вариант. Проверить на кирилицу и привести её к латинице.
+                String uriStr = String.format("https://yandex.ru/pogoda/" + cityName.getText().toString() + "?from=serp_title");
+                Uri uri = Uri.parse(uriStr);
+                Intent runEchoIntent = new Intent(Intent.ACTION_VIEW, uri);
+                ActivityInfo activityInfo =
+                        runEchoIntent.resolveActivityInfo(getPackageManager(),
+                                runEchoIntent.getFlags());
+                if (activityInfo != null) {
+                    startActivity(runEchoIntent);
+                }
+
+            }
+        });
         cityName = findViewById(R.id.textView_cityName);
 
-        Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onCreate: ");
+        sendMessage("onCreate()");
     }
 
     @Override
@@ -57,56 +79,49 @@ public class MainActivity extends AppCompatActivity {
         // С учетом того, что Bundle у меня пустой данный метод не вызывается. По этому я поместил обновление города
         // в метом onStart() т.к. onRestoreInstanceState вызывается после него.
 
-        Toast.makeText(getApplicationContext(), "onRestoreInstanceState()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onRestoreInstanceState: ");
+        sendMessage("onRestoreInstanceState()");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        Toast.makeText(getApplicationContext(), "onSaveInstanceState()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onSaveInstanceState: ");
+        sendMessage("onSaveInstanceState()");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        Toast.makeText(getApplicationContext(), "onStop()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onStop: ");
+        sendMessage("onStop()");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onPause: ");
+        sendMessage("onPause()");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
 
-        Toast.makeText(getApplicationContext(), "onRestart()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onRestart: ");
+        sendMessage("onRestart()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        Toast.makeText(getApplicationContext(), "onResume()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onResume: ");
+        sendMessage("onResume()");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        Toast.makeText(getApplicationContext(), "onDestroy()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onDestroy: ");
+        sendMessage("onDestroy()");
     }
 
     private void setInterface() {
@@ -122,6 +137,32 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.textView_Speed)).setVisibility(View.VISIBLE);
         }else{
             ((TextView)findViewById(R.id.textView_Speed)).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void sendMessage(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, msg);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) return;
+
+        if (requestCode == RESULT_CODE_MAIN ){
+            ((TextView)findViewById(R.id.textView_cityName)).setText(data.getStringExtra(MainPresenter.CITY_NAME));
+            ((TextView)findViewById(R.id.textView_Speed)).setVisibility(data.getBooleanExtra(MainPresenter.SPEED_VISIBLE, false)? View.VISIBLE : View.GONE);
+            ((TextView)findViewById(R.id.textViewPressure)).setVisibility(data.getBooleanExtra(MainPresenter.PRESSURE_VISIBLE, false)? View.VISIBLE : View.GONE);
+        }
+        if (requestCode == RESULT_CODE_SETTINGS){
+            /// Переключение темы пока не работает. Что-то не так делаю, на выходных будет больше времени, разберусь.
+            if (data.getBooleanExtra(MainPresenter.THEME_INSTALLED, true)){
+                getApplication().setTheme(AppCompatDelegate.MODE_NIGHT_NO);
+            }else{
+                getApplication().setTheme(AppCompatDelegate.MODE_NIGHT_YES);
+            }
         }
     }
 }

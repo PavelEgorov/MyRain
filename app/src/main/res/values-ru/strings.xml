@@ -23,4 +23,5 @@
     <string name="changeCity">Изменить</string>
     <string name="save">Сохранить</string>
     <string name="back">Назад</string>
+    <string name="browser">Браузер</string>
 </resources>

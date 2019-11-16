@@ -1,5 +1,6 @@
 package com.egorovsoft.myrain;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -92,5 +93,9 @@ public class Settings extends AppCompatActivity {
         }else{
             MainPresenter.getInstance().setTheme(MainPresenter.getInstance().THEME_LIGHT);
         }
+
+        Intent intent = new Intent();
+        intent.putExtra(MainPresenter.THEME_INSTALLED, ((RadioButton)findViewById(R.id.radioButton_light)).isChecked());
+        setResult(RESULT_OK, intent);
     }
 }

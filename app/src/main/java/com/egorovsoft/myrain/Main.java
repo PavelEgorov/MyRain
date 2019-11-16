@@ -1,5 +1,6 @@
 package com.egorovsoft.myrain;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -48,5 +49,11 @@ public class Main extends AppCompatActivity {
         MainPresenter.getInstance().setCityName(((EditText)findViewById(R.id.editText_enter_city)).getText().toString());
         MainPresenter.getInstance().setNeedPressure(((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked());
         MainPresenter.getInstance().setNeedSpeed(((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked());
+
+        Intent intent = new Intent();
+        intent.putExtra(MainPresenter.CITY_NAME, ((EditText)findViewById(R.id.editText_enter_city)).getText().toString());
+        intent.putExtra(MainPresenter.SPEED_VISIBLE, ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked());
+        intent.putExtra(MainPresenter.PRESSURE_VISIBLE, ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked());
+        setResult(RESULT_OK, intent);
     }
 }

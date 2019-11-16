@@ -4,6 +4,12 @@ public final class MainPresenter {
     private static MainPresenter instance = null;
     private static Object syncObj = new Object();
 
+    public static final String CITY_NAME = "city_name";
+    public static final String SPEED_VISIBLE = "speed_visible";
+    public static final String PRESSURE_VISIBLE = "pressure_visible";
+    public static final String THEME_INSTALLED = "theme_installed";
+
+
     private String cityName;
     private boolean needPressure;
     private boolean needSpeed;

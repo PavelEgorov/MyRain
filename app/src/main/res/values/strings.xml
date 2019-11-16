@@ -22,4 +22,5 @@
     <string name="changeCity">change</string>
     <string name="save">Save</string>
     <string name="back">back</string>
+    <string name="browser">Browser</string>
 </resources>
