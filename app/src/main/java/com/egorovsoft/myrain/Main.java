@@ -46,14 +46,22 @@ public class Main extends AppCompatActivity {
     }
 
     private void saveData() {
-        MainPresenter.getInstance().setCityName(((EditText)findViewById(R.id.editText_enter_city)).getText().toString());
-        MainPresenter.getInstance().setNeedPressure(((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked());
-        MainPresenter.getInstance().setNeedSpeed(((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked());
+        String cName = ((EditText)findViewById(R.id.editText_enter_city)).getText().toString();
+        boolean isVisibleS = ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked();
+        boolean isVisibleP = ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked();
+
+        MainPresenter.getInstance().setCityName(cName);
+        MainPresenter.getInstance().setNeedPressure(isVisibleS);
+        MainPresenter.getInstance().setNeedSpeed(isVisibleP);
 
         Intent intent = new Intent();
-        intent.putExtra(MainPresenter.CITY_NAME, ((EditText)findViewById(R.id.editText_enter_city)).getText().toString());
-        intent.putExtra(MainPresenter.SPEED_VISIBLE, ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked());
-        intent.putExtra(MainPresenter.PRESSURE_VISIBLE, ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked());
+        intent.putExtra(MainPresenter.CITY_NAME, cName);
+        intent.putExtra(MainPresenter.SPEED_VISIBLE, isVisibleS);
+        intent.putExtra(MainPresenter.PRESSURE_VISIBLE, isVisibleP);
         setResult(RESULT_OK, intent);
+
+        Publisher.getInstance().notifyCity(cName);
+        Publisher.getInstance().notifyVisibleWindSpeed(isVisibleS);
+        Publisher.getInstance().notifyVisiblePressure(isVisibleP);
     }
 }

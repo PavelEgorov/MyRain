@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private static final int RESULT_CODE_MAIN = 1;
     private static final int RESULT_CODE_SETTINGS = 2;
 
@@ -153,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == RESULT_CODE_MAIN ){
             ((TextView)findViewById(R.id.textView_cityName)).setText(data.getStringExtra(MainPresenter.CITY_NAME));
-            ((TextView)findViewById(R.id.textView_Speed)).setVisibility(data.getBooleanExtra(MainPresenter.SPEED_VISIBLE, false)? View.VISIBLE : View.GONE);
-            ((TextView)findViewById(R.id.textViewPressure)).setVisibility(data.getBooleanExtra(MainPresenter.PRESSURE_VISIBLE, false)? View.VISIBLE : View.GONE);
         }
         if (requestCode == RESULT_CODE_SETTINGS){
             /// Переключение темы пока не работает. Что-то не так делаю, на выходных будет больше времени, разберусь.

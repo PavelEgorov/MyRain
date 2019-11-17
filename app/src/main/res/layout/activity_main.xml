@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,58 +45,19 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <fragment
+                android:id="@+id/fragment_temperature"
+                android:name="com.egorovsoft.myrain.TemperatureFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+            </fragment>
 
-                <TextView
-                    android:id="@+id/txtTemperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:rotation="0"
-                    android:text="@string/txt_temperature"
-                    android:textAlignment="viewEnd"
-                    android:textAllCaps="false"
-                    android:textSize="90sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/Celsius"
-                    android:textAlignment="textStart"
-                    android:textSize="110sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <fragment
+                android:id="@+id/fragment_data"
+                android:name="com.egorovsoft.myrain.DataWheatherFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:id="@+id/textView_Speed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="6 m/s wind speed"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/textViewPressure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="80 mm atmospheric pressure"
-                    android:textAlignment="center" />
-            </LinearLayout>
+                android:layout_height="wrap_content">
+            </fragment>
 
             <Button
                 android:id="@+id/button_brows"
