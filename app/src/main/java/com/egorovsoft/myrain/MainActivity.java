@@ -25,6 +25,12 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.AppTheme_Dark);
+        }else{
+            setTheme(R.style.AppTheme_Light);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -157,10 +163,18 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == RESULT_CODE_SETTINGS){
             /// Переключение темы пока не работает. Что-то не так делаю, на выходных будет больше времени, разберусь.
             if (data.getBooleanExtra(MainPresenter.THEME_INSTALLED, true)){
-                getApplication().setTheme(AppCompatDelegate.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                restartActivity();
             }else{
-                getApplication().setTheme(AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                restartActivity();
             }
         }
+    }
+
+    private void restartActivity() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

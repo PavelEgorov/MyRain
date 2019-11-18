@@ -21,7 +21,7 @@ public final class MainPresenter {
 
     public final int LANGUAGE_EN = 1101;
     public final int LANGUAGE_RU = 1102;
- 
+
     public MainPresenter(){
         needPressure = false;
         needSpeed = false;
