@@ -59,6 +59,18 @@
                 android:layout_height="wrap_content">
             </fragment>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_weekend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:reverseLayout="false">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
             <Button
                 android:id="@+id/button_brows"
                 android:layout_width="match_parent"
