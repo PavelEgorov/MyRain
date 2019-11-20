@@ -38,7 +38,6 @@ public final class MainPresenter {
 
             return instance;
         }
-
     }
 
     public String getCityName() {
