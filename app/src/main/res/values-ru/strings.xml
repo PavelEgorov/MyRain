@@ -24,4 +24,11 @@
     <string name="save">Сохранить</string>
     <string name="back">Назад</string>
     <string name="browser">Браузер</string>
+    <string name="monday">понедельник</string>
+    <string name="tuesday">вторник</string>
+    <string name="wednesday">среда</string>
+    <string name="thursday">четверг</string>
+    <string name="friday">пятница</string>
+    <string name="saturday">суббота</string>
+    <string name="sunday">воскресенье</string>
 </resources>

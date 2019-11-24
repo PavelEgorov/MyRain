@@ -3,6 +3,9 @@ package com.egorovsoft.myrain;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String[] data = getResources().getStringArray(R.array.items);
+        initRecyclerView(data);
 
         findViewById(R.id.buttonChange).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +73,26 @@ public class MainActivity extends AppCompatActivity{
         cityName = findViewById(R.id.textView_cityName);
 
         sendMessage("onCreate()");
+    }
+
+    private void initRecyclerView(String[] data) {
+        Weekend[] weekends = new Weekend[data.length];
+        for (int i=0; i<data.length; i++){
+            weekends[i] =   new Weekend(data[i]);
+        }
+        RecyclerView recyclerView = findViewById(R.id.recyclerView_weekend);
+
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        WeekendAdapter adapter = new WeekendAdapter(weekends);
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,  LinearLayoutManager.HORIZONTAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
