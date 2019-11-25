@@ -8,9 +8,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Main extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,13 +24,24 @@ public class Main extends AppCompatActivity {
         findViewById(R.id.buttonBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Snackbar snackBar = Snackbar.make(v, R.string.saveChange, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.yes, snackbarOnClickListenerYes);
+                //onBackPressed();
+                snackBar.show();
             }
         });
     }
 
+    View.OnClickListener snackbarOnClickListenerYes = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            saveData();
+            onBackPressed();
+        }
+    };
+
     private void restore() {
-        ((EditText)findViewById(R.id.editText_enter_city)).setText(MainPresenter.getInstance().getCityName());
+        ((TextInputLayout)findViewById(R.id.editText_enter_city)).getEditText().setText(MainPresenter.getInstance().getCityName());
         ((CheckBox)findViewById(R.id.checkBoxPressure)).setChecked(MainPresenter.getInstance().isNeedPressure());
         ((CheckBox)findViewById(R.id.checkBoxSpeed)).setChecked(MainPresenter.getInstance().isNeedSpeed());
     }
@@ -35,18 +50,18 @@ public class Main extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        saveData();
+        //saveData();
     }
 
     @Override
     public void onBackPressed() {
-        saveData();
+        //saveData();
 
         super.onBackPressed();
     }
 
     private void saveData() {
-        String cName = ((EditText)findViewById(R.id.editText_enter_city)).getText().toString();
+        String cName = ((TextInputLayout)findViewById(R.id.editText_enter_city)).getEditText().getText().toString();
         boolean isVisibleS = ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked();
         boolean isVisibleP = ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked();
 

@@ -31,4 +31,8 @@
     <string name="friday">пятница</string>
     <string name="saturday">суббота</string>
     <string name="sunday">воскресенье</string>
+    <string name="enter_city_name">Введите название города</string>
+    <string name="no">нет</string>
+    <string name="yes">да</string>
+    <string name="saveChange">Сохранить изменения?</string>
 </resources>
