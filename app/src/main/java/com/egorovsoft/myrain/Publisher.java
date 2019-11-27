@@ -41,6 +41,30 @@ public final class Publisher {
         }
     }
 
+    public void notifyTemp(String text) {
+        for (Observer observer : observers) {
+            observer.updateTemp(text);
+        }
+    }
+
+    public void notifyErr(String text) {
+        for (Observer observer : observers) {
+            observer.updateError(text);
+        }
+    }
+
+    public void notifyWind(String text) {
+        for (Observer observer : observers) {
+            observer.updateWind(text);
+        }
+    }
+
+    public void notifyPressure(String text) {
+        for (Observer observer : observers) {
+            observer.updatePressure(text);
+        }
+    }
+
     public void notifyVisibleWindSpeed(boolean isVisible) {
         for (Observer observer : observers) {
             observer.setVisibleWindSpeed(isVisible);

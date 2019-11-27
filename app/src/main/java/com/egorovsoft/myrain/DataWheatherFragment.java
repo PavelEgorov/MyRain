@@ -1,15 +1,13 @@
 package com.egorovsoft.myrain;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 
 public class DataWheatherFragment extends Fragment implements Observer {
@@ -55,8 +53,28 @@ public class DataWheatherFragment extends Fragment implements Observer {
     }
 
     @Override
+    public void updateError(String err) {
+
+    }
+
+    @Override
     public void updateCity(String name) {
 
+    }
+
+    @Override
+    public void updateTemp(String t) {
+
+    }
+
+    @Override
+    public void updatePressure(String pressure) {
+        ((TextView)getActivity().findViewById(R.id.textViewPressure)).setText(pressure);
+    }
+
+    @Override
+    public void updateWind(String wind) {
+        ((TextView)getActivity().findViewById(R.id.textView_Speed)).setText(wind);
     }
 
     @Override

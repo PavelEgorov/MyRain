@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Main extends AppCompatActivity {
+public class ChangeCity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
