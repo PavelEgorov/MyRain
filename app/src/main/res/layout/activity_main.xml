@@ -21,6 +21,7 @@
 
             <Button
                 android:id="@+id/buttonChange"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -73,6 +74,7 @@
 
             <Button
                 android:id="@+id/button_brows"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,6 +82,7 @@
 
             <Button
                 android:id="@+id/buttonSettings"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"

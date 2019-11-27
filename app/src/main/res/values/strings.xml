@@ -31,4 +31,8 @@
     <string name="friday">friday</string>
     <string name="saturday">saturday</string>
     <string name="sunday">sunday</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="saveChange">Save change?</string>
 </resources>
