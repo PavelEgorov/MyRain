@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">My rain</string>
-    <string name="txt_temperature">5</string>
+    <string name="txt_temperature">5°C</string>
     <string name="Celsius">°C</string>
     <string name="city">City</string>
     <string name="todo">TODO</string>
@@ -35,4 +35,7 @@
     <string name="no">no</string>
     <string name="yes">yes</string>
     <string name="saveChange">Save change?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,12 +1,5 @@
 package com.egorovsoft.myrain;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -14,9 +7,15 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity{
     private static final int RESULT_CODE_MAIN = 1;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.buttonChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(MainActivity.this, Main.class), RESULT_CODE_MAIN);
+                startActivityForResult(new Intent(MainActivity.this, ChangeCity.class), RESULT_CODE_MAIN);
             }
         });
         findViewById(R.id.buttonSettings).setOnClickListener(new View.OnClickListener() {
@@ -70,7 +69,17 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+
         cityName = findViewById(R.id.textView_cityName);
+
+        ///{{ Тест кнопка для тестирования запроса на сайт
+        findViewById(R.id.button_UpdateTemperature).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainPresenter.getInstance().updateData();
+            }
+        });
+        ///}}
 
         sendMessage("onCreate()");
     }
@@ -187,7 +196,6 @@ public class MainActivity extends AppCompatActivity{
             ((TextView)findViewById(R.id.textView_cityName)).setText(data.getStringExtra(MainPresenter.CITY_NAME));
         }
         if (requestCode == RESULT_CODE_SETTINGS){
-            /// Переключение темы пока не работает. Что-то не так делаю, на выходных будет больше времени, разберусь.
             if (data.getBooleanExtra(MainPresenter.THEME_INSTALLED, true)){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 restartActivity();
