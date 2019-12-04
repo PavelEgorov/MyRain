@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,6 +38,7 @@ public class Settings extends AppCompatActivity {
         rbEn =   findViewById(R.id.radioButton_english);
         rbRu =   findViewById(R.id.radioButton_Russian);
 
+
         if (MainPresenter.getInstance().getLanguage() == MainPresenter.getInstance().LANGUAGE_EN){
             rbEn.setChecked(true);
         }else if (MainPresenter.getInstance().getLanguage() == MainPresenter.getInstance().LANGUAGE_RU){
@@ -55,6 +54,14 @@ public class Settings extends AppCompatActivity {
         }else{
             rbLight.setChecked(true);
         }
+
+        CheckBox use_temp_sensor = findViewById(R.id.checkBox_temperature_sensor);
+        use_temp_sensor.setChecked(MainPresenter.getInstance().getTemperatureSensorIsActive());
+
+        CheckBox use_hum_sensor = findViewById(R.id.checkBox_humidity_sensor);
+        use_hum_sensor.setChecked(MainPresenter.getInstance().getHumiditySensorIsActive());
+
+
     }
 
     @Override
@@ -93,6 +100,12 @@ public class Settings extends AppCompatActivity {
         }else{
             MainPresenter.getInstance().setTheme(MainPresenter.getInstance().THEME_LIGHT);
         }
+
+        CheckBox use_temp_sensor = findViewById(R.id.checkBox_temperature_sensor);
+        MainPresenter.getInstance().setTemperatureSensorIsActive(use_temp_sensor.isChecked());
+
+        CheckBox use_hum_sensor = findViewById(R.id.checkBox_humidity_sensor);
+        MainPresenter.getInstance().setHumiditySensorIsActive(use_hum_sensor.isChecked());
 
         Intent intent = new Intent();
         intent.putExtra(MainPresenter.THEME_INSTALLED, ((RadioButton)findViewById(R.id.radioButton_light)).isChecked());

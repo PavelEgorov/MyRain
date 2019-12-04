@@ -36,6 +36,8 @@
     <string name="yes">yes</string>
     <string name="saveChange">Save change?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="disconnect">not found</string>
+    <string name="use_temperature_sensor">Use temperature sensor</string>
+    <string name="use_humidity_sensor">Use humidity sensor</string>
+
 </resources>

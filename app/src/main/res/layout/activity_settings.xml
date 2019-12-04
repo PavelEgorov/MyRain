@@ -69,6 +69,18 @@
             android:text="@string/Russian" />
     </RadioGroup>
 
+    <CheckBox
+        android:id="@+id/checkBox_temperature_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/use_temperature_sensor" />
+
+    <CheckBox
+        android:id="@+id/checkBox_humidity_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/use_humidity_sensor" />
+
     <Button
         android:id="@+id/buttonBack"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"

@@ -1,6 +1,10 @@
 package com.egorovsoft.myrain;
 
+import android.content.Context;
 import android.os.Handler;
+
+import com.egorovsoft.myrain.sensors.HumiditySensor;
+import com.egorovsoft.myrain.sensors.TemperatureSensor;
 
 import java.net.MalformedURLException;
 
@@ -21,7 +25,7 @@ public final class MainPresenter {
     private int language;
     private int error;
 
-    private final Handler handler;
+    private Handler handler;
 
     public final int THEME_LIGHT = 1001;
     public final int THEME_DARK = 1002;
@@ -30,7 +34,13 @@ public final class MainPresenter {
     public final int LANGUAGE_RU = 1102;
     private float temperature;
     private int pressure;
-    private int windSpeed;
+    private float windSpeed;
+    Thread threadTemperature;
+    Thread threadHumidity;
+
+
+    private boolean temperatureSensorIsActive;
+    private boolean humiditySensorIsActive;
 
     public MainPresenter(){
         needPressure = false;
@@ -44,6 +54,8 @@ public final class MainPresenter {
         windSpeed = 0;
         pressure = 0;
         temperature = 0;
+
+        temperatureSensorIsActive = false;
     }
 
     public static MainPresenter getInstance() {
@@ -108,7 +120,7 @@ public final class MainPresenter {
         this.pressure = pressure;
     }
 
-    public void setWindSpeed(int windSpeed) {
+    public void setWindSpeed(float windSpeed) {
         this.windSpeed = windSpeed;
     }
 
@@ -121,7 +133,7 @@ public final class MainPresenter {
             Publisher.getInstance().notifyErr(getError());
         }
         Publisher.getInstance().notifyPressure(String.format("%d",pressure) + " mm atmospheric pressure");
-        Publisher.getInstance().notifyWind(String.format("%d",windSpeed) + " m/s wind speed");
+        Publisher.getInstance().notifyWind(String.format("%f2",windSpeed) + " m/s wind speed");
 
         this.error = error;
     }
@@ -135,12 +147,18 @@ public final class MainPresenter {
                     ConnectionToWheatherServer conn = new ConnectionToWheatherServer(cityName);
                     conn.refreshData();
                     conn.close();
-
-                   updateActivity();
-
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
+
+                ///{{ разобрался с использованием handler.
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateActivity();
+                    }
+                });
+                ///}}
             }
         });
         thread.setDaemon(true);
@@ -161,5 +179,91 @@ public final class MainPresenter {
         }else{
             return "Error: " + String.format("%d",error);
         }
+    }
+
+    public void registerTemperatureListener(final Context context){
+        if (!TemperatureSensor.getInstance(context).phoneHaveSensor()) return; /// если у телефона нет сенсора, нет смысла его запускать.
+        if (!temperatureSensorIsActive) return; /// выключенный сенсор тоже нет смысла запускать
+        if (TemperatureSensor.getInstance(context).isActive()) return; /// Нет смысла регистрировать сенсор, т.к. он уже зарегистрирован
+
+        Runnable runnuble = new Runnable() {
+            @Override
+            public void run() {
+                TemperatureSensor.getInstance(context).registerListener();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Publisher.getInstance().notifyTemp(TemperatureSensor.getInstance(context).getSensorData() + "°C");
+                    }
+                });
+            }
+        };
+
+        threadTemperature = new Thread(runnuble);
+        threadTemperature.setDaemon(true);
+        threadTemperature.start();
+    }
+
+    public void setTemperatureSensorIsActive(boolean temperatureSensorIsActive) {
+        this.temperatureSensorIsActive = temperatureSensorIsActive;
+    }
+
+    public void unRegisterTemperatureListener(final Context context){
+        if (!TemperatureSensor.getInstance(context).phoneHaveSensor()) return; /// если у телефона нет сенсора, нет смысла его запускать.
+        if (!TemperatureSensor.getInstance(context).isActive()) return; /// Нет смысла регистрировать сенсор, т.к. он уже выключен
+        if(threadTemperature == null) return; /// если поток не инициализарован нет смысла его останавливать
+
+        Thread dummy = threadTemperature;
+        threadTemperature = null;
+        dummy.interrupt();
+
+        TemperatureSensor.getInstance(context).unregisterListener();
+    }
+
+    public boolean getTemperatureSensorIsActive() {
+        return temperatureSensorIsActive;
+    }
+
+    public void registerHumidityListener(final Context context){
+        if (!HumiditySensor.getInstance(context).phoneHaveSensor()) return; /// если у телефона нет сенсора, нет смысла его запускать.
+        if (!humiditySensorIsActive) return; /// выключенный сенсор тоже нет смысла запускать
+        if (HumiditySensor.getInstance(context).isActive()) return; /// Нет смысла регистрировать сенсор, т.к. он уже зарегистрирован
+
+        Runnable runnuble = new Runnable() {
+            @Override
+            public void run() {
+                HumiditySensor.getInstance(context).registerListener();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Publisher.getInstance().notifyPressure(HumiditySensor.getInstance(context).getSensorData() + " mm atmospheric pressure");
+                    }
+                });
+            }
+        };
+
+        threadHumidity = new Thread(runnuble);
+        threadHumidity.setDaemon(true);
+        threadHumidity.start();
+    }
+
+    public void unRegisterHumidityListener(final Context context){
+        if (!HumiditySensor.getInstance(context).phoneHaveSensor()) return; /// если у телефона нет сенсора, нет смысла его запускать.
+        if (!HumiditySensor.getInstance(context).isActive()) return; /// Нет смысла регистрировать сенсор, т.к. он уже выключен
+        if(threadHumidity == null) return; /// если поток не инициализарован нет смысла его останавливать
+
+        Thread dummy = threadHumidity;
+        threadHumidity = null;
+        dummy.interrupt();
+
+        HumiditySensor.getInstance(context).unregisterListener();
+    }
+
+    public void setHumiditySensorIsActive(boolean humiditySensorIsActive) {
+        this.humiditySensorIsActive = humiditySensorIsActive;
+    }
+
+    public boolean getHumiditySensorIsActive() {
+        return humiditySensorIsActive;
     }
 }
