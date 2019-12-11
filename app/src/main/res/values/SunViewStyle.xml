@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SunView">
+        <attr name="sunview_radius" format="integer"/>
+        <attr name="sunview_color" format="integer"/>
+        <attr name="sunview_text" format="string"/>
+        <attr name="sunview_length_line" format="integer"/>
+    </declare-styleable>
+</resources>

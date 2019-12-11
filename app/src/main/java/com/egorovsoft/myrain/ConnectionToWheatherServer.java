@@ -19,7 +19,7 @@ public class ConnectionToWheatherServer {
     private float temperature;
     private int pressure;
     private int humidity;
-    private int windSpeed;
+    private float windSpeed;
     private HttpsURLConnection urlConnection;
     private int error_massage;
 
@@ -118,7 +118,7 @@ public class ConnectionToWheatherServer {
         return humidity;
     }
 
-    public int getWindSpeed() {
+    public float getWindSpeed() {
         return windSpeed;
     }
 

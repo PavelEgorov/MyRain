@@ -1,14 +1,14 @@
 package com.egorovsoft.myrain;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.egorovsoft.myrain.customview.SunView;
+
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class WeekendAdapter extends RecyclerView.Adapter<WeekendAdapter.ViewHolder> {
@@ -44,12 +44,14 @@ public class WeekendAdapter extends RecyclerView.Adapter<WeekendAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textView_dayName;
+        private SunView sunView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
             textView_dayName = (TextView) itemView.findViewById(R.id.textView_DayName);
+            sunView = (SunView) itemView.findViewById(R.id.sunView_day);
         }
 
         public TextView getTextView() {
@@ -59,6 +61,8 @@ public class WeekendAdapter extends RecyclerView.Adapter<WeekendAdapter.ViewHold
         @Override
         public void onClick(View v) {
             /// тут будет обработчик нажатия на элемент RecycleView
+            sunView.setText("1");
+            sunView.invalidate();
             Toast.makeText(v.getContext(), textView_dayName.getText().toString(), Toast.LENGTH_SHORT).show();
         }
     }

@@ -1,7 +1,7 @@
 package com.egorovsoft.myrain.api.openweathermap;
 
 public class Wind {
-    private int speed;
+    private float speed;
     private int deg;
 
     public int getDeg() {
@@ -12,7 +12,7 @@ public class Wind {
         this.deg = deg;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 

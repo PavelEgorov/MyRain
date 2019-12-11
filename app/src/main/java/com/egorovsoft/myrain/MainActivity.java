@@ -82,6 +82,13 @@ public class MainActivity extends AppCompatActivity{
         ///}}
 
         sendMessage("onCreate()");
+
+        ///{{ Запускаем слушатель сенсора температуры
+        MainPresenter.getInstance().registerTemperatureListener(this);
+        ///}}
+        ///{{ Запускаем слушатель сенсора влажности
+        MainPresenter.getInstance().registerHumidityListener(this);
+        ///}}
     }
 
     private void initRecyclerView(String[] data) {
@@ -140,6 +147,13 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onPause() {
         super.onPause();
+
+        ///{{ Останавливаем слушатель сенсора температуры
+        MainPresenter.getInstance().unRegisterTemperatureListener(this);
+        ///}}
+        ///{{ Останавливаем слушатель сенсора влажности
+        MainPresenter.getInstance().unRegisterHumidityListener(this);
+        ///}}
 
         sendMessage("onPause()");
     }

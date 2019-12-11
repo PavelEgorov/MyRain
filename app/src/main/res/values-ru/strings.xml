@@ -35,4 +35,7 @@
     <string name="no">нет</string>
     <string name="yes">да</string>
     <string name="saveChange">Сохранить изменения?</string>
+    <string name="disconnect">нет связи</string>
+    <string name="use_temperature_sensor">Использовать сенсор температуры</string>
+    <string name="use_humidity_sensor">Использовать сенсор влажности</string>
 </resources>
