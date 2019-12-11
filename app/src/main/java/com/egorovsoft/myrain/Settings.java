@@ -107,6 +107,8 @@ public class Settings extends AppCompatActivity {
         CheckBox use_hum_sensor = findViewById(R.id.checkBox_humidity_sensor);
         MainPresenter.getInstance().setHumiditySensorIsActive(use_hum_sensor.isChecked());
 
+        MainPresenter.getInstance().savePreference(this);
+
         Intent intent = new Intent();
         intent.putExtra(MainPresenter.THEME_INSTALLED, ((RadioButton)findViewById(R.id.radioButton_light)).isChecked());
         setResult(RESULT_OK, intent);
