@@ -2,6 +2,7 @@ package com.egorovsoft.myrain;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.egorovsoft.myrain.sensors.HumiditySensor;
 import com.egorovsoft.myrain.sensors.TemperatureSensor;
@@ -11,6 +12,8 @@ import java.net.MalformedURLException;
 public final class MainPresenter {
     private static MainPresenter instance = null;
     private static Object syncObj = new Object();
+
+    private static final String TAG = "MainPresenter";
 
     public static final String CITY_NAME = "city_name";
     public static final String SPEED_VISIBLE = "speed_visible";
@@ -35,8 +38,10 @@ public final class MainPresenter {
     private float temperature;
     private int pressure;
     private float windSpeed;
-    Thread threadTemperature;
-    Thread threadHumidity;
+    private Thread threadTemperature;
+    private Thread threadHumidity;
+
+    private SPreference sPreference;
 
 
     private boolean temperatureSensorIsActive;
@@ -265,5 +270,29 @@ public final class MainPresenter {
 
     public boolean getHumiditySensorIsActive() {
         return humiditySensorIsActive;
+    }
+
+    public void loadPreference(Context context){
+        if (sPreference == null) sPreference = new SPreference(context);
+
+        needPressure = sPreference.readNeedPressure();
+        needSpeed = sPreference.readNeedSpeed();
+        cityName = sPreference.readCity();
+        theme = sPreference.readTheme();
+        language = sPreference.readLanguage();
+
+        Log.d(TAG, "loadPreference: ");
+    }
+
+    public void savePreference(Context context){
+        if (sPreference == null) sPreference = new SPreference(context);
+
+        sPreference.setCity(cityName);
+        sPreference.setNeedPressure(needPressure);
+        sPreference.setNeedSpeed(needSpeed);
+        sPreference.setTheme(theme);
+        sPreference.setLanguage(language);
+
+        Log.d(TAG, "savePreference: ");
     }
 }

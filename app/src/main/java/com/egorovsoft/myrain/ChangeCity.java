@@ -67,6 +67,8 @@ public class ChangeCity extends AppCompatActivity {
         MainPresenter.getInstance().setNeedPressure(isVisibleS);
         MainPresenter.getInstance().setNeedSpeed(isVisibleP);
 
+        MainPresenter.getInstance().savePreference(this);
+
         Intent intent = new Intent();
         intent.putExtra(MainPresenter.CITY_NAME, cName);
         intent.putExtra(MainPresenter.SPEED_VISIBLE, isVisibleS);

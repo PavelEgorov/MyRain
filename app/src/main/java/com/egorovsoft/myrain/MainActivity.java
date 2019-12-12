@@ -27,6 +27,10 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /// Если приложение впервые запущено, то загрузим данные.
+        if (savedInstanceState == null) MainPresenter.getInstance().loadPreference(this);
+
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
             setTheme(R.style.AppTheme_Dark);
         }else{
@@ -66,7 +70,6 @@ public class MainActivity extends AppCompatActivity{
                 if (activityInfo != null) {
                     startActivity(runEchoIntent);
                 }
-
             }
         });
 
