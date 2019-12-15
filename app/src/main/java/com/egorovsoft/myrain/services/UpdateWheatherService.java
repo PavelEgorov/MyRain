@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.egorovsoft.myrain.ConnectionToWheatherServer;
 import com.egorovsoft.myrain.MainPresenter;
-
-import java.net.MalformedURLException;
+import com.egorovsoft.myrain.connections.ConnectionToWheatherServer;
 
 import androidx.annotation.Nullable;
 
@@ -49,7 +47,7 @@ public class UpdateWheatherService extends Service {
                 while (!thread.isInterrupted()) {
                     try {
                         ConnectionToWheatherServer conn = new ConnectionToWheatherServer(city);
-                        conn.refreshData();
+                        conn.refreshDataRetrofit();
                         conn.close();
 
                         MainPresenter.getInstance().getHandler().post(new Runnable() {
@@ -60,8 +58,6 @@ public class UpdateWheatherService extends Service {
                         });
 
                         thread.sleep(60000);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
