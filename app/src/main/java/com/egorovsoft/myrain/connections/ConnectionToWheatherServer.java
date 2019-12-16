@@ -46,6 +46,7 @@ public class ConnectionToWheatherServer {
         pressure = 0;
         humidity = 0;
         windSpeed = 0;
+        error_massage = 200;
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(SERVER_URI)
@@ -61,10 +62,14 @@ public class ConnectionToWheatherServer {
         Call<WeatherRequest> call = weatherRequestCall.refreshDataRetrofit(city_name + ",ru", "metric", API_KEY);
         try {
             Response<WeatherRequest> weatherRequest = call.execute();
-            if (weatherRequest.isSuccessful())
+            error_massage = weatherRequest.code();
+
+            if (weatherRequest.isSuccessful()) {
                 displayWeather(weatherRequest.body());
-            else
+            }
+            else{
                 SetError();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

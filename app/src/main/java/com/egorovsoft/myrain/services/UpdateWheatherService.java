@@ -57,7 +57,7 @@ public class UpdateWheatherService extends Service {
                             }
                         });
 
-                        thread.sleep(60000);
+                        thread.sleep(30000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
