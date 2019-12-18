@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChangeCity" >
+    tools:context=".activitys.ChangeCity" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,6 +18,13 @@
             android:layout_margin="20dp"
             android:orientation="vertical"
             android:scrollbarAlwaysDrawVerticalTrack="false">
+
+            <Button
+                android:id="@+id/button_open_sql"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sql" />
 
             <Button
                 android:id="@+id/buttonChange"
@@ -48,14 +55,14 @@
 
             <fragment
                 android:id="@+id/fragment_temperature"
-                android:name="com.egorovsoft.myrain.TemperatureFragment"
+                android:name="com.egorovsoft.myrain.fragments.TemperatureFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </fragment>
 
             <fragment
                 android:id="@+id/fragment_data"
-                android:name="com.egorovsoft.myrain.DataWheatherFragment"
+                android:name="com.egorovsoft.myrain.fragments.DataWheatherFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </fragment>

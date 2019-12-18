@@ -1,38 +1,45 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.egorovsoft.myrain.MainPresenter;
+import com.egorovsoft.myrain.Observer;
+import com.egorovsoft.myrain.Publisher;
+import com.egorovsoft.myrain.R;
+import com.egorovsoft.myrain.activitys.ErrorActivity;
+
 import androidx.fragment.app.Fragment;
 
 
-public class DataWheatherFragment extends Fragment implements Observer {
+public class TemperatureFragment extends Fragment implements Observer {
 
-    public DataWheatherFragment() {
+    public TemperatureFragment() {
         // Required empty public constructor
     }
 
-    public static DataWheatherFragment newInstance(String param1, String param2) {
-        DataWheatherFragment fragment = new DataWheatherFragment();
+   // TODO: Rename and change types and number of parameters
+    public static TemperatureFragment newInstance(String param1, String param2) {
+        TemperatureFragment fragment = new TemperatureFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Publisher.getInstance().subscribe(this);
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_data_wheather, container, false);
+        return inflater.inflate(R.layout.fragment_temperature, container, false);
     }
 
     @Override
@@ -53,6 +60,12 @@ public class DataWheatherFragment extends Fragment implements Observer {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void updateError(String err) {
 
     }
@@ -64,26 +77,30 @@ public class DataWheatherFragment extends Fragment implements Observer {
 
     @Override
     public void updateTemp(String t) {
+        ((TextView)getActivity().findViewById(R.id.textView_temp)).setText(t);
+        if (MainPresenter.getInstance().isError()){
+            Intent intent = new Intent(getContext(), ErrorActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void updatePressure(String name) {
 
     }
 
     @Override
-    public void updatePressure(String pressure) {
-        ((TextView)getActivity().findViewById(R.id.textViewPressure)).setText(pressure);
-    }
+    public void updateWind(String name) {
 
-    @Override
-    public void updateWind(String wind) {
-        ((TextView)getActivity().findViewById(R.id.textView_Speed)).setText(wind);
     }
 
     @Override
     public void setVisibleWindSpeed(boolean isVisible) {
-        ((TextView)getActivity().findViewById(R.id.textView_Speed)).setVisibility(isVisible? View.VISIBLE : View.GONE);
+
     }
 
     @Override
     public void setVisiblePressure(boolean isVisible) {
-        ((TextView)getActivity().findViewById(R.id.textViewPressure)).setVisibility(isVisible? View.VISIBLE : View.GONE);
+
     }
 }

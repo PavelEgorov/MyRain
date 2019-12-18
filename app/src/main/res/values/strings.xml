@@ -39,5 +39,6 @@
     <string name="disconnect">not found</string>
     <string name="use_temperature_sensor">Use temperature sensor</string>
     <string name="use_humidity_sensor">Use humidity sensor</string>
+    <string name="sql" translatable="false">sql</string>
 
 </resources>

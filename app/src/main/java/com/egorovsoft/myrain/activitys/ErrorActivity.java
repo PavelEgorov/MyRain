@@ -1,11 +1,16 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.activitys;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.egorovsoft.myrain.MainPresenter;
+import com.egorovsoft.myrain.Observer;
+import com.egorovsoft.myrain.Publisher;
+import com.egorovsoft.myrain.R;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ErrorActivity extends AppCompatActivity implements Observer{
+public class ErrorActivity extends AppCompatActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
