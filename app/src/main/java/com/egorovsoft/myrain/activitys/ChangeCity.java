@@ -66,7 +66,7 @@ public class ChangeCity extends AppCompatActivity {
         boolean isVisibleS = ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked();
         boolean isVisibleP = ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked();
 
-        if (cName != MainPresenter.getInstance().getCityName()) MainPresenter.getInstance().updateCity(cName);
+        if (cName != MainPresenter.getInstance().getCityName()) MainPresenter.getInstance().updateCity(cName, 0);
         MainPresenter.getInstance().setCityName(cName);
         MainPresenter.getInstance().setNeedPressure(isVisibleS);
         MainPresenter.getInstance().setNeedSpeed(isVisibleP);

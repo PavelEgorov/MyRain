@@ -145,6 +145,9 @@ public final class MainPresenter {
         if (error >= 200 && error<=299){
             Publisher.getInstance().notifyTemp(String.format("%f2",temperature) + "°C");
             Publisher.getInstance().notifyErr(getError());
+
+            /// В идеале нужно повесить на observer
+            updateCity(cityName, temperature);
         }else{
             Publisher.getInstance().notifyTemp("0°C");
             Publisher.getInstance().notifyErr(getError());
@@ -348,12 +351,12 @@ public final class MainPresenter {
         return noteDataReader;
     }
 
-    public void updateCity(String cityName_) {
+    public void updateCity(String cityName_, float temperature_) {
         openSQLConnection();
 
         City city = new City();
         city.setCityName(cityName_);
-        city.setTemperature(0);
+        city.setTemperature(temperature_);
 
         notesDataSource.addNewRecord(city);
 
