@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.button_UpdateTemperature).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainPresenter.getInstance().updateData();
+                //MainPresenter.getInstance().updateData();
             }
         });
         ///}}
@@ -87,7 +87,13 @@ public class MainActivity extends AppCompatActivity{
         sendMessage("onCreate()");
 
         ///{{ Запускаем слушатель сенсора температуры
-        MainPresenter.getInstance().registerTemperatureListener(this);
+        if (MainPresenter.getInstance().getTemperatureSensorIsActive()){
+            /// Запускаем сенсор
+            MainPresenter.getInstance().registerTemperatureListener(this);
+        }else{
+            /// Запускаем сервис
+            MainPresenter.getInstance().startServiceWheather(this);
+        }
         ///}}
         ///{{ Запускаем слушатель сенсора влажности
         MainPresenter.getInstance().registerHumidityListener(this);
@@ -152,7 +158,11 @@ public class MainActivity extends AppCompatActivity{
         super.onPause();
 
         ///{{ Останавливаем слушатель сенсора температуры
-        MainPresenter.getInstance().unRegisterTemperatureListener(this);
+        if (MainPresenter.getInstance().getTemperatureSensorIsActive()){
+            MainPresenter.getInstance().unRegisterTemperatureListener(this);
+        }else{
+            MainPresenter.getInstance().stopServiceWheather(this);
+        }
         ///}}
         ///{{ Останавливаем слушатель сенсора влажности
         MainPresenter.getInstance().unRegisterHumidityListener(this);

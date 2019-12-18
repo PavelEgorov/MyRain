@@ -21,6 +21,10 @@
         </activity>
         <activity android:name=".ChangeCity" />
         <activity android:name=".Settings" />
+        <service android:name=".services.UpdateWheatherService"
+            android:enabled="true"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

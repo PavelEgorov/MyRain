@@ -1,13 +1,13 @@
 package com.egorovsoft.myrain;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
 import com.egorovsoft.myrain.sensors.HumiditySensor;
 import com.egorovsoft.myrain.sensors.TemperatureSensor;
-
-import java.net.MalformedURLException;
+import com.egorovsoft.myrain.services.UpdateWheatherService;
 
 public final class MainPresenter {
     private static MainPresenter instance = null;
@@ -20,6 +20,7 @@ public final class MainPresenter {
     public static final String PRESSURE_VISIBLE = "pressure_visible";
     public static final String THEME_INSTALLED = "theme_installed";
 
+    private UpdateWheatherService updateWheatherService;
 
     private String cityName;
     private boolean needPressure;
@@ -40,6 +41,7 @@ public final class MainPresenter {
     private float windSpeed;
     private Thread threadTemperature;
     private Thread threadHumidity;
+    private Intent intentService;
 
     private SPreference sPreference;
 
@@ -59,6 +61,8 @@ public final class MainPresenter {
         windSpeed = 0;
         pressure = 0;
         temperature = 0;
+
+        updateWheatherService = new UpdateWheatherService();
 
         temperatureSensorIsActive = false;
     }
@@ -129,7 +133,7 @@ public final class MainPresenter {
         this.windSpeed = windSpeed;
     }
 
-    private void updateActivity(){
+    public void updateActivity(){
         if (error >= 200 && error<=299){
             Publisher.getInstance().notifyTemp(String.format("%f2",temperature) + "°C");
             Publisher.getInstance().notifyErr(getError());
@@ -143,32 +147,32 @@ public final class MainPresenter {
         this.error = error;
     }
 
-    public void updateData(){
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ConnectionToWheatherServer conn = new ConnectionToWheatherServer(cityName);
-                    conn.refreshData();
-                    conn.close();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-                ///{{ разобрался с использованием handler.
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateActivity();
-                    }
-                });
-                ///}}
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-    }
+//    public void updateData(){
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    ConnectionToWheatherServer conn = new ConnectionToWheatherServer(cityName);
+//                    conn.refreshData();
+//                    conn.close();
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                ///{{ разобрался с использованием handler.
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        updateActivity();
+//                    }
+//                });
+//                ///}}
+//            }
+//        });
+//        thread.setDaemon(true);
+//        thread.start();
+//    }
 
     public boolean isError() {
         if (error >= 200 && error<=299){
@@ -294,5 +298,23 @@ public final class MainPresenter {
         sPreference.setLanguage(language);
 
         Log.d(TAG, "savePreference: ");
+    }
+
+    public void startServiceWheather(Context context){
+        Log.d(TAG, "startServiceWheather: ");
+        intentService = new Intent(context, UpdateWheatherService.class);
+        intentService.putExtra(CITY_NAME, cityName);
+        context.startService(intentService);
+    }
+
+    public void stopServiceWheather(Context context){
+        Log.d(TAG, "stopServiceWheather: ");
+        if (intentService == null) return;
+
+        context.stopService(intentService);
+    }
+
+    public Handler getHandler(){
+        return this.handler;
     }
 }
