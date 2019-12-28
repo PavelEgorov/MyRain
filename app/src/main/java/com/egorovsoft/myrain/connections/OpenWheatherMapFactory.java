@@ -12,4 +12,7 @@ import retrofit2.http.Query;
 interface OpenWheatherMapFactory {
     @GET("data/2.5/weather")
     Call<WeatherRequest> refreshDataRetrofit(@Query("q") String q, @Query("units") String units, @Query("appid") String appid);
+
+    @GET("data/2.5/weather")
+    Call<WeatherRequest> refreshDataRetrofitLocation(@Query("lat") String lat, @Query("lon") String lon, @Query("appid") String appid);
 }

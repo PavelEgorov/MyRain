@@ -78,6 +78,7 @@ public class TemperatureFragment extends Fragment implements Observer {
     @Override
     public void updateTemp(String t) {
         ((TextView)getActivity().findViewById(R.id.textView_temp)).setText(t);
+
         if (MainPresenter.getInstance().isError()){
             Intent intent = new Intent(getContext(), ErrorActivity.class);
             startActivity(intent);
