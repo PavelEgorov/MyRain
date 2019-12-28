@@ -8,6 +8,10 @@ import android.util.Log;
 import com.egorovsoft.myrain.sensors.HumiditySensor;
 import com.egorovsoft.myrain.sensors.TemperatureSensor;
 import com.egorovsoft.myrain.services.UpdateWheatherService;
+import com.egorovsoft.myrain.sql.City;
+import com.egorovsoft.myrain.sql.ConnectDatabase;
+import com.egorovsoft.myrain.sql.sqlite.SQLLiteConnector;
+import com.egorovsoft.myrain.sql.sqlite.SQLLiteDataReader;
 
 public final class MainPresenter {
     private static MainPresenter instance = null;
@@ -45,9 +49,12 @@ public final class MainPresenter {
 
     private SPreference sPreference;
 
-
     private boolean temperatureSensorIsActive;
     private boolean humiditySensorIsActive;
+
+    private ConnectDatabase notesDataSource;      // Источник данных
+    private SQLLiteDataReader noteDataReader;      // Читатель данных
+
 
     public MainPresenter(){
         needPressure = false;
@@ -65,6 +72,7 @@ public final class MainPresenter {
         updateWheatherService = new UpdateWheatherService();
 
         temperatureSensorIsActive = false;
+
     }
 
     public static MainPresenter getInstance() {
@@ -137,6 +145,9 @@ public final class MainPresenter {
         if (error >= 200 && error<=299){
             Publisher.getInstance().notifyTemp(String.format("%f2",temperature) + "°C");
             Publisher.getInstance().notifyErr(getError());
+
+            /// В идеале нужно повесить на observer
+            updateCity(cityName, temperature);
         }else{
             Publisher.getInstance().notifyTemp("0°C");
             Publisher.getInstance().notifyErr(getError());
@@ -305,6 +316,7 @@ public final class MainPresenter {
         intentService = new Intent(context, UpdateWheatherService.class);
         intentService.putExtra(CITY_NAME, cityName);
         context.startService(intentService);
+
     }
 
     public void stopServiceWheather(Context context){
@@ -316,5 +328,38 @@ public final class MainPresenter {
 
     public Handler getHandler(){
         return this.handler;
+    }
+
+    public void createConnection(Context context){
+        notesDataSource = new SQLLiteConnector(context);
+    }
+
+    public void openSQLConnection(){
+        if (notesDataSource.isOpening()) return;
+
+        notesDataSource.openConnection();
+        noteDataReader = notesDataSource.getDataReader();
+    }
+
+    public void closeSQLConnection(){
+        if (!notesDataSource.isOpening()) return;
+
+        notesDataSource.closeConnection();
+    }
+
+    public SQLLiteDataReader getDataReader(){
+        return noteDataReader;
+    }
+
+    public void updateCity(String cityName_, float temperature_) {
+        openSQLConnection();
+
+        City city = new City();
+        city.setCityName(cityName_);
+        city.setTemperature(temperature_);
+
+        notesDataSource.addNewRecord(city);
+
+        closeSQLConnection();
     }
 }

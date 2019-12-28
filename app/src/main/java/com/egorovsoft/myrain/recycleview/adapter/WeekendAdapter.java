@@ -1,4 +1,4 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.recycleview.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.egorovsoft.myrain.R;
 import com.egorovsoft.myrain.customview.SunView;
+import com.egorovsoft.myrain.recycleview.Weekend;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

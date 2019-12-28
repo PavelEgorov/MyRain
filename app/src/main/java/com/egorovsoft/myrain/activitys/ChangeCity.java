@@ -1,4 +1,4 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.egorovsoft.myrain.MainPresenter;
+import com.egorovsoft.myrain.Publisher;
+import com.egorovsoft.myrain.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -63,6 +66,7 @@ public class ChangeCity extends AppCompatActivity {
         boolean isVisibleS = ((CheckBox)findViewById(R.id.checkBoxSpeed)).isChecked();
         boolean isVisibleP = ((CheckBox)findViewById(R.id.checkBoxPressure)).isChecked();
 
+        if (cName != MainPresenter.getInstance().getCityName()) MainPresenter.getInstance().updateCity(cName, 0);
         MainPresenter.getInstance().setCityName(cName);
         MainPresenter.getInstance().setNeedPressure(isVisibleS);
         MainPresenter.getInstance().setNeedSpeed(isVisibleP);

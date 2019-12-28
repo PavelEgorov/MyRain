@@ -11,20 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ErrorActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activitys.SQLDataList"></activity>
+        <activity android:name=".activitys.ErrorActivity" />
+        <activity android:name=".activitys.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChangeCity" />
-        <activity android:name=".Settings" />
-        <service android:name=".services.UpdateWheatherService"
+        <activity android:name=".activitys.ChangeCity" />
+        <activity android:name=".activitys.Settings" />
+
+        <service
+            android:name=".services.UpdateWheatherService"
             android:enabled="true"
-            android:exported="false"
-            />
+            android:exported="false" />
     </application>
 
 </manifest>

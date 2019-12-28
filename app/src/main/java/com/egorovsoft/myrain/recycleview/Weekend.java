@@ -1,4 +1,4 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.recycleview;
 
 public class Weekend {
     private String dayName;

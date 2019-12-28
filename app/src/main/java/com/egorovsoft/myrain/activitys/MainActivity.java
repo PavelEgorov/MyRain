@@ -1,4 +1,4 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.activitys;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.egorovsoft.myrain.MainPresenter;
+import com.egorovsoft.myrain.R;
+import com.egorovsoft.myrain.recycleview.Weekend;
+import com.egorovsoft.myrain.recycleview.adapter.WeekendAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,12 +48,20 @@ public class MainActivity extends AppCompatActivity{
         String[] data = getResources().getStringArray(R.array.items);
         initRecyclerView(data);
 
+        findViewById(R.id.button_open_sql).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this, SQLDataList.class), RESULT_CODE_MAIN);
+            }
+        });
+
         findViewById(R.id.buttonChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(MainActivity.this, ChangeCity.class), RESULT_CODE_MAIN);
             }
         });
+
         findViewById(R.id.buttonSettings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

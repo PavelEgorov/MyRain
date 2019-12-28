@@ -1,4 +1,4 @@
-package com.egorovsoft.myrain;
+package com.egorovsoft.myrain.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+
+import com.egorovsoft.myrain.MainPresenter;
+import com.egorovsoft.myrain.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
