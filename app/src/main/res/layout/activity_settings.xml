@@ -81,6 +81,12 @@
         android:layout_height="wrap_content"
         android:text="@string/use_humidity_sensor" />
 
+    <CheckBox
+        android:id="@+id/checkBox_geo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/use_geo" />
+
     <Button
         android:id="@+id/buttonBack"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"

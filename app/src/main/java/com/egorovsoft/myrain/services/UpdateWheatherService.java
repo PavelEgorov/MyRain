@@ -13,9 +13,16 @@ import androidx.annotation.Nullable;
 public class UpdateWheatherService extends Service {
     private static final String TAG = "UPDATE_WHEATHER_SERVICE";
     private static final String EXTRA_CITY = MainPresenter.getInstance().CITY_NAME;
+    private static final String EXTRA_USE_LOCATION = MainPresenter.getInstance().USE_LOCATION;
+    private static final String EXTRA_LOCATION_X = MainPresenter.getInstance().LOCATION_X;
+    private static final String EXTRA_LOCATION_Y = MainPresenter.getInstance().LOCATION_Y;
+
 
     private Thread thread;
     private String city;
+    private boolean useLocation;
+    private double latitude;
+    private double longitude;
 
     @Nullable
     @Override
@@ -27,6 +34,9 @@ public class UpdateWheatherService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         city = intent.getStringExtra(EXTRA_CITY);
+        useLocation = intent.getBooleanExtra(EXTRA_USE_LOCATION, false);
+        latitude = intent.getDoubleExtra(EXTRA_LOCATION_X, 0.0);
+        longitude = intent.getDoubleExtra(EXTRA_LOCATION_Y, 0.0);
 
         if (!thread.isInterrupted()) thread.interrupt(); // Если поток уже запущен, то остановим его.
 
@@ -47,7 +57,11 @@ public class UpdateWheatherService extends Service {
                 while (!thread.isInterrupted()) {
                     try {
                         ConnectionToWheatherServer conn = new ConnectionToWheatherServer(city);
-                        conn.refreshDataRetrofit();
+                        if (!useLocation) {
+                            conn.refreshDataRetrofit();
+                        }else{
+                            conn.refreshDataRetrofitLocation(latitude, longitude);
+                        }
                         conn.close();
 
                         MainPresenter.getInstance().getHandler().post(new Runnable() {

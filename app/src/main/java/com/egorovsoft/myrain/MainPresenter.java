@@ -1,10 +1,13 @@
 package com.egorovsoft.myrain;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
+import com.egorovsoft.myrain.geo.Geo;
+import com.egorovsoft.myrain.permission.Permission;
 import com.egorovsoft.myrain.sensors.HumiditySensor;
 import com.egorovsoft.myrain.sensors.TemperatureSensor;
 import com.egorovsoft.myrain.services.UpdateWheatherService;
@@ -19,6 +22,9 @@ public final class MainPresenter {
 
     private static final String TAG = "MainPresenter";
 
+    public static final String USE_LOCATION = "permission_location";
+    public static final String LOCATION_X = "latitude";
+    public static final String LOCATION_Y = "longitude";
     public static final String CITY_NAME = "city_name";
     public static final String SPEED_VISIBLE = "speed_visible";
     public static final String PRESSURE_VISIBLE = "pressure_visible";
@@ -45,6 +51,8 @@ public final class MainPresenter {
     private float windSpeed;
     private Thread threadTemperature;
     private Thread threadHumidity;
+    private Thread threadGeo;
+
     private Intent intentService;
 
     private SPreference sPreference;
@@ -55,6 +63,12 @@ public final class MainPresenter {
     private ConnectDatabase notesDataSource;      // Источник данных
     private SQLLiteDataReader noteDataReader;      // Читатель данных
 
+    private boolean permissionLocation;
+    private boolean permissionLocationEnable;
+    private double latitude;
+    private double longitude;
+    private float accuracy;
+    private Permission permission;
 
     public MainPresenter(){
         needPressure = false;
@@ -64,6 +78,7 @@ public final class MainPresenter {
         language = LANGUAGE_EN;
         error = 200;
         handler =   new Handler();
+        permissionLocationEnable = false;
 
         windSpeed = 0;
         pressure = 0;
@@ -73,6 +88,11 @@ public final class MainPresenter {
 
         temperatureSensorIsActive = false;
 
+        permissionLocation  =   false;
+
+        latitude = 0.0;
+        longitude = 0.0;
+        accuracy = 0;
     }
 
     public static MainPresenter getInstance() {
@@ -313,8 +333,14 @@ public final class MainPresenter {
 
     public void startServiceWheather(Context context){
         Log.d(TAG, "startServiceWheather: ");
+
+        boolean pr = permissionLocationEnable && permissionLocation;
+
         intentService = new Intent(context, UpdateWheatherService.class);
         intentService.putExtra(CITY_NAME, cityName);
+        intentService.putExtra(USE_LOCATION, pr);
+        intentService.putExtra(LOCATION_X, getLatitude());
+        intentService.putExtra(LOCATION_Y, getLongitude());
         context.startService(intentService);
 
     }
@@ -361,5 +387,87 @@ public final class MainPresenter {
         notesDataSource.addNewRecord(city);
 
         closeSQLConnection();
+    }
+
+    public void setPermissionLocation(boolean permission){
+        this.permissionLocation = permission;
+    }
+
+    public boolean getPermissionLocation(){
+        return this.permissionLocation;
+    }
+
+    public double getLatitude(){
+        return this.latitude;
+    }
+
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public float getAccuracy(){
+        return accuracy;
+    }
+
+    public void setLatitude(double l){
+        latitude = l;
+    }
+
+    public void setLongitude(double l){
+        longitude = l;
+    }
+
+    public void setAccuracy(float a){
+        accuracy = a;
+    }
+
+    public void registerLocationListener(final Context context){
+        if (!permissionLocation) return;
+        if (Geo.getInstance(context).isActive()) return;
+
+        Geo.getInstance(context).setIsActive(true);
+        Geo.getInstance(context).requestLocation();
+
+//        Runnable runnuble = new Runnable() {
+//            @Override
+//            public void run() {
+//                Geo.getInstance(context).requestLocation();
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        updateActivity();
+//                    }
+//                });
+//            }
+//        };
+//
+//        threadGeo= new Thread(runnuble);
+//        threadGeo.setDaemon(true);
+//        threadGeo.start();
+    }
+
+    public void unRegisterLocationListener(final Context context){
+        if (!permissionLocation) return;
+        if (!Geo.getInstance(context).isActive()) return;
+//        if(threadGeo == null) return;
+//
+//        Thread dummy = threadGeo;
+//        threadGeo = null;
+//        dummy.interrupt();
+
+        Geo.getInstance(context).unregisterListener();
+    }
+
+    public void changePermissionLocation(Activity activity, Context context){
+        permission = new Permission();
+        if (!permission.checkPermissionLoacation(context)) permission.requestLocationPermissions(activity);
+    }
+
+    public void setPermissionLocationEnable(boolean enable){
+        this.permissionLocationEnable = enable;
+    }
+
+    public boolean isPermissionLocationEnable(){
+        return permissionLocationEnable;
     }
 }

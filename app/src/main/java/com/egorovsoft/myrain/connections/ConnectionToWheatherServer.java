@@ -166,7 +166,26 @@ public class ConnectionToWheatherServer {
         if (urlConnection != null){
             urlConnection.disconnect();
         }
+    }
 
+    public void refreshDataRetrofitLocation(double latitude, double longitude){
 
+        //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
+        Log.d(TAG, "refreshDataRetrofitLocation: ");
+        /// refreshDataRetrofit вызывается в отдельном потоке, по этому я не делаю асинхронный вызов.
+        Call<WeatherRequest> call = weatherRequestCall.refreshDataRetrofitLocation(Double.toString(latitude), Double.toString(longitude), API_KEY);
+        try {
+            Response<WeatherRequest> weatherRequest = call.execute();
+            error_massage = weatherRequest.code();
+
+            if (weatherRequest.isSuccessful()) {
+                displayWeather(weatherRequest.body());
+            }
+            else{
+                SetError();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

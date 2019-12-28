@@ -32,6 +32,25 @@ public class Settings extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        findViewById(R.id.checkBox_geo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPermissionLocation();
+            }
+        });
+    }
+
+    private void viewPermissionLocation() {
+        CheckBox checkBox_geo = findViewById(R.id.checkBox_geo);
+        MainPresenter.getInstance().setPermissionLocationEnable(checkBox_geo.isChecked());
+
+        MainPresenter.getInstance().changePermissionLocation(this, getApplicationContext());
+        if (MainPresenter.getInstance().isPermissionLocationEnable()){
+            MainPresenter.getInstance().registerLocationListener(this);
+        }else {
+            MainPresenter.getInstance().unRegisterLocationListener(this);
+        }
     }
 
     private void restore() {
@@ -57,6 +76,9 @@ public class Settings extends AppCompatActivity {
         }else{
             rbLight.setChecked(true);
         }
+
+        CheckBox checkBox_geo = findViewById(R.id.checkBox_geo);
+        checkBox_geo.setChecked(MainPresenter.getInstance().isPermissionLocationEnable());
 
         CheckBox use_temp_sensor = findViewById(R.id.checkBox_temperature_sensor);
         use_temp_sensor.setChecked(MainPresenter.getInstance().getTemperatureSensorIsActive());
@@ -106,6 +128,9 @@ public class Settings extends AppCompatActivity {
 
         CheckBox use_temp_sensor = findViewById(R.id.checkBox_temperature_sensor);
         MainPresenter.getInstance().setTemperatureSensorIsActive(use_temp_sensor.isChecked());
+
+        CheckBox checkBox_geo = findViewById(R.id.checkBox_geo);
+        MainPresenter.getInstance().setPermissionLocationEnable(checkBox_geo.isChecked());
 
         CheckBox use_hum_sensor = findViewById(R.id.checkBox_humidity_sensor);
         MainPresenter.getInstance().setHumiditySensorIsActive(use_hum_sensor.isChecked());

@@ -40,5 +40,6 @@
     <string name="use_temperature_sensor">Use temperature sensor</string>
     <string name="use_humidity_sensor">Use humidity sensor</string>
     <string name="sql" translatable="false">sql</string>
+    <string name="use_geo">Use geo</string>
 
 </resources>
